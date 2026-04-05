@@ -1,0 +1,257 @@
+// This is a proxy Prisma schema that references the main schema
+// but generates the client into this package's node_modules
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =============================================================================
+// CLIENT MANAGEMENT
+// =============================================================================
+
+model Client {
+  id         String   @id @default(uuid())
+  name       String
+  email      String?
+  apiKey     String   @unique
+  apiKeyHash String
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  events Event[]
+  rules  Rule[]
+
+  @@map("clients")
+}
+
+// =============================================================================
+// EVENT TRACKING
+// =============================================================================
+
+model Event {
+  id            String   @id @default(uuid())
+  eventId       String   @unique
+  eventType     String
+  walletAddress String
+  metadata      Json     @default("{}")
+  clientId      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([walletAddress])
+  @@index([eventType])
+  @@index([clientId])
+  @@index([createdAt])
+  @@map("events")
+}
+
+// =============================================================================
+// POINTS & REWARDS
+// =============================================================================
+
+model PointsBalance {
+  id            String   @id @default(uuid())
+  walletAddress String   @unique
+  balance       Int      @default(0)
+  totalEarned   Int      @default(0)
+  totalSpent    Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  transactions PointsTransaction[]
+
+  @@map("points_balances")
+}
+
+enum TransactionType {
+  EARNED
+  SPENT
+  REFERRAL
+  BONUS
+  ADJUSTMENT
+}
+
+model PointsTransaction {
+  id            String          @id @default(uuid())
+  walletAddress String
+  amount        Int
+  type          TransactionType
+  description   String?
+  metadata      Json            @default("{}")
+  balanceAfter  Int
+  ruleId        String?
+  createdAt     DateTime        @default(now())
+
+  pointsBalance PointsBalance @relation(fields: [walletAddress], references: [walletAddress], onDelete: Cascade)
+  rule          Rule?         @relation(fields: [ruleId], references: [id], onDelete: SetNull)
+
+  @@index([walletAddress])
+  @@index([type])
+  @@index([createdAt])
+  @@map("points_transactions")
+}
+
+// =============================================================================
+// BADGES
+// =============================================================================
+
+model Badge {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  imageUrl    String
+  tier        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  ownerships BadgeOwnership[]
+
+  @@map("badges")
+}
+
+model BadgeOwnership {
+  id            String   @id @default(uuid())
+  walletAddress String
+  badgeId       String
+  awardedAt     DateTime @default(now())
+  ruleId        String?
+
+  badge Badge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  rule  Rule? @relation(fields: [ruleId], references: [id], onDelete: SetNull)
+
+  @@unique([walletAddress, badgeId])
+  @@index([walletAddress])
+  @@map("badge_ownerships")
+}
+
+// =============================================================================
+// RULES ENGINE
+// =============================================================================
+
+enum RuleType {
+  THRESHOLD
+  FREQUENCY
+  CONDITIONAL
+}
+
+enum RewardType {
+  POINTS
+  BADGE
+  PROBABILISTIC
+}
+
+model Rule {
+  id         String     @id @default(uuid())
+  name       String
+  type       RuleType
+  eventTypes String[]
+  conditions Json       @default("[]")
+  threshold  Int?
+  frequency  Int?
+  reward     Json
+  active     Boolean    @default(true)
+  clientId   String
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  client       Client              @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  transactions PointsTransaction[]
+  badgeAwards  BadgeOwnership[]
+  rewardLogs   RewardLog[]
+
+  @@index([clientId])
+  @@index([active])
+  @@map("rules")
+}
+
+model RewardLog {
+  id            String     @id @default(uuid())
+  walletAddress String
+  ruleId        String
+  rewardType    RewardType
+  rewardData    Json       @default("{}")
+  eventId       String?
+  createdAt     DateTime   @default(now())
+
+  rule Rule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+
+  @@unique([walletAddress, ruleId])
+  @@index([walletAddress])
+  @@index([ruleId])
+  @@map("reward_logs")
+}
+
+// =============================================================================
+// REFERRAL SYSTEM
+// =============================================================================
+
+model ReferralCode {
+  id             String   @id @default(uuid())
+  code           String   @unique
+  referrerWallet String
+  maxUses        Int      @default(0)
+  currentUses    Int      @default(0)
+  expiresAt      DateTime?
+  active         Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  referrals Referral[]
+
+  @@index([referrerWallet])
+  @@map("referral_codes")
+}
+
+enum ReferralStatus {
+  PENDING
+  COMPLETED
+  EXPIRED
+}
+
+model Referral {
+  id            String         @id @default(uuid())
+  code          String
+  referrerWallet String
+  refereeWallet  String        @unique
+  status        ReferralStatus @default(PENDING)
+  rewardCredited Boolean       @default(false)
+  qualifiedAt   DateTime?
+  metadata      Json           @default("{}")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  referralCode ReferralCode @relation(fields: [code], references: [code], onDelete: Cascade)
+
+  @@index([referrerWallet])
+  @@index([refereeWallet])
+  @@index([status])
+  @@map("referrals")
+}
+
+// =============================================================================
+// AUTHENTICATION
+// =============================================================================
+
+model WalletSession {
+  id            String   @id @default(uuid())
+  walletAddress String
+  nonce         String   @unique
+  signature     String?
+  expiresAt     DateTime
+  verified      Boolean  @default(false)
+  token         String?  @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([walletAddress])
+  @@index([expiresAt])
+  @@map("wallet_sessions")
+}

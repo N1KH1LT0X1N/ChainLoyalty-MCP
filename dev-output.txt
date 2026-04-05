@@ -1,0 +1,21 @@
+﻿mcp-use packages:
+  @mcp-use/cli           v2.21.2
+  @mcp-use/inspector     v0.26.1
+HMR enabled - changes will hot reload without dropping connections
+Loading server from index.ts...
+[HMR] Loaded: file:///C:/Dev/GitGoneWild/packages/ChainLoyalty/index.ts?t=1775358241714
+[HMR] Loaded: file:///C:/Dev/GitGoneWild/packages/ChainLoyalty/src/tools/events.ts
+[HMR] Loaded: file:///C:/Dev/GitGoneWild/packages/ChainLoyalty/src/tools/referrals.ts
+[HMR] Loaded: file:///C:/Dev/GitGoneWild/packages/ChainLoyalty/src/tools/rewards.ts
+[HMR] Loaded: file:///C:/Dev/GitGoneWild/packages/ChainLoyalty/src/tools/rules.ts
+[HMR] Loaded: file:///C:/Dev/GitGoneWild/packages/ChainLoyalty/src/tools/wallet.ts
+[HMR] Loaded: file:///C:/Dev/GitGoneWild/packages/ChainLoyalty/src/tools/analytics.ts
+[HMR] Loaded: file:///C:/Dev/GitGoneWild/packages/ChainLoyalty/src/utils/prisma.ts
+[HMR] Loaded: file:///C:/Dev/GitGoneWild/packages/ChainLoyalty/src/utils/formatters.ts
+[HMR] Loaded: file:///C:/Dev/GitGoneWild/packages/ChainLoyalty/src/utils/validators.ts
+Γ£à ChainLoyalty MCP Server running
+   Inspector: http://localhost:3000/inspector
+   Tools: 18 registered (6 modules)
+   Widgets: 6 registered
+[CSP] No CSP_URLS environment variable found
+[WIDGETS] Mounting widgets in development mode
