@@ -1,7 +1,7 @@
 {
   "name": "@t0x1n/chainloyalty-mcp-server",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ChainLoyalty Intelligence Platform - AI-powered MCP server for loyalty management",
   "author": "ChainLoyalty <team@chainloyalty.com>",
   "license": "MIT",
