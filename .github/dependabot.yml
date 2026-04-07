@@ -1,1 +1,58 @@
-version: 2\nupdates:\n  # Enable version updates for npm\n  - package-ecosystem: \"npm\"\n    directory: \"/\"\n    schedule:\n      interval: \"weekly\"\n      day: \"monday\"\n      time: \"09:00\"\n    open-pull-requests-limit: 10\n    reviewers:\n      - \"chainloyalty-team\"\n    assignees:\n      - \"chainloyalty-team\"\n    commit-message:\n      prefix: \"chore\"\n      include: \"scope\"\n    labels:\n      - \"dependencies\"\n      - \"npm\"\n    \n  # Enable version updates for GitHub Actions\n  - package-ecosystem: \"github-actions\"\n    directory: \"/\"\n    schedule:\n      interval: \"weekly\"\n      day: \"monday\"\n      time: \"09:00\"\n    open-pull-requests-limit: 5\n    reviewers:\n      - \"chainloyalty-team\"\n    assignees:\n      - \"chainloyalty-team\"\n    commit-message:\n      prefix: \"chore\"\n      include: \"scope\"\n    labels:\n      - \"dependencies\"\n      - \"github-actions\"\n    \n  # Enable Docker updates (if Dockerfile exists)\n  - package-ecosystem: \"docker\"\n    directory: \"/\"\n    schedule:\n      interval: \"weekly\"\n      day: \"monday\"\n      time: \"09:00\"\n    open-pull-requests-limit: 5\n    reviewers:\n      - \"chainloyalty-team\"\n    assignees:\n      - \"chainloyalty-team\"\n    commit-message:\n      prefix: \"chore\"\n      include: \"scope\"\n    labels:\n      - \"dependencies\"\n      - \"docker\"
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "chainloyalty-team"
+    assignees:
+      - "chainloyalty-team"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "npm"
+    
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "chainloyalty-team"
+    assignees:
+      - "chainloyalty-team"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    
+  # Enable Docker updates (if Dockerfile exists)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "chainloyalty-team"
+    assignees:
+      - "chainloyalty-team"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "docker"
