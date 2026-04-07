@@ -66,8 +66,6 @@
     "@langchain/core": "^1.1.0",
     "@langchain/openai": "^1.2.0",
     "langchain": "^1.2.10",
-    "langfuse": "^3.38.6",
-    "langfuse-langchain": "^3.38.6",
     "mcp-use": "latest",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
