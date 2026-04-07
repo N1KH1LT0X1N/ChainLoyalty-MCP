@@ -1,10 +1,18 @@
 {
-  "name": "@chainloyalty/mcp-server",
+  "name": "@t0x1n/chainloyalty-mcp-server",
   "type": "module",
   "version": "1.0.0",
   "description": "ChainLoyalty Intelligence Platform - AI-powered MCP server for loyalty management",
-  "author": "ChainLoyalty",
+  "author": "ChainLoyalty <team@chainloyalty.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/N1KH1LT0X1N/ChainLoyalty-MCP.git"
+  },
+  "homepage": "https://github.com/N1KH1LT0X1N/ChainLoyalty-MCP#readme",
+  "bugs": {
+    "url": "https://github.com/N1KH1LT0X1N/ChainLoyalty-MCP/issues"
+  },
   "keywords": [
     "mcp",
     "server",
@@ -17,20 +25,42 @@
     "web3",
     "widgets",
     "mcp-apps",
-    "chatgpt-apps"
+    "chatgpt-apps",
+    "model-context-protocol",
+    "ai",
+    "gpt"
   ],
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "prisma",
+    "resources",
+    "docs",
+    "README.md",
+    "LICENSE",
+    ".env.example"
+  ],
   "scripts": {
     "build": "mcp-use build",
     "dev": "mcp-use dev",
     "start": "mcp-use start",
     "deploy": "mcp-use deploy",
-    "prisma:generate": "prisma generate --schema prisma/schema.prisma",
-    "prebuild": "npm run prisma:generate"
+    "prisma:generate": "npx prisma generate --schema prisma/schema.prisma",
+    "prebuild": "npm run prisma:generate",
+    "test": "echo 'Error: no test specified' && exit 0",
+    "lint": "echo 'Error: no linter configured' && exit 0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
     "@openai/apps-sdk-ui": "^0.2.1",
-    "@prisma/client": "^6.19.0",
+    "@prisma/client": "^6.6.0",
     "mcp-use": "latest",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
@@ -42,7 +72,7 @@
     "@types/node": "^25.3.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "prisma": "^6.19.0",
+    "prisma": "^6.6.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
