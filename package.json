@@ -106,6 +106,6 @@
     "prisma": "^6.6.0",
     "rollup": "^4.60.1",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.2"
   }
 }
