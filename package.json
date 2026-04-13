@@ -83,7 +83,7 @@
     "@nodelib/fs.stat": "^2.0.5",
     "@nodelib/fs.walk": "^1.2.8",
     "@openai/apps-sdk-ui": "^0.2.1",
-    "@prisma/client": "^6.6.0",
+    "@prisma/client": "^7.7.0",
     "@e2b/code-interpreter": "^2.2.0",
     "@babel/runtime": "^7.29.2",
     "fastq": "^1.20.1",
